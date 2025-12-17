@@ -1,18 +1,19 @@
-def call(String from_email , String to_email ){
-    success{
-        script{
-            emailext from:"${from_email}",
-            to:"${to_email}",
-            body:"Deployed Successfully your node application check in your ip",
-            subject:"Build sucesss"
+def call(String fromEmail, String toEmail, String status) {
+    if (status == 'SUCCESS') {
+        emailext(
+            from: fromEmail,
+            to: toEmail,
+            subject: 'Build Success',
+            body: 'Deployed successfully. Please check your application.'
+        )
     }
-    }
-    failure{
-        script{
-            emailext from:"${from_email}",
-            to:"${to_email}",
-            body:"Build Failed Check the console for more information",
-            subject:"Build Failed"
-    }
+
+    if (status == 'FAILURE') {
+        emailext(
+            from: fromEmail,
+            to: toEmail,
+            subject: 'Build Failed',
+            body: 'Build failed. Check Jenkins console logs.'
+        )
     }
 }
